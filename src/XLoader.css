@@ -1,0 +1,469 @@
+/* ==========================================================================
+   1. Shared Base Configuration (Applied to all variants)
+   ========================================================================== */
+.x-container {
+   height: var(--uib-size);
+   width: var(--uib-size);
+   transform-origin: center;
+   contain: strict;
+   display: inline-block;
+}
+
+.track {
+   fill: none;
+   stroke: var(--uib-color);
+   opacity: var(--uib-bg-opacity);
+}
+
+.car {
+   fill: none;
+   stroke: var(--uib-color);
+   transform-origin: center;
+}
+
+/* ==========================================================================
+     2. Individual Isolated Variants
+     ========================================================================== */
+
+/* --- Variant 1: travelX --- */
+[data-variant="pendulum"] .car {
+   stroke-dasharray: 30, 70;
+   stroke-dashoffset: 0;
+   animation: travelX var(--uib-speed) linear infinite;
+   will-change: stroke-dashoffset;
+}
+[data-variant="pendulum"] .car.delay {
+   animation-delay: calc(var(--uib-speed) / -2);
+}
+@keyframes travelX {
+   0% {
+      stroke-dashoffset: 30;
+   }
+   100% {
+      stroke-dashoffset: -70;
+   }
+}
+
+/* --- Variant 2: collapse --- */
+[data-variant="spin"] .car {
+   stroke-dasharray: 100, 100;
+   stroke-dashoffset: 0;
+   will-change: transform, stroke-dashoffset;
+}
+[data-variant="spin"] .car:not(.delay) {
+   animation: collapseLeft var(--uib-speed) cubic-bezier(0.77, 0, 0.175, 1)
+      infinite;
+}
+[data-variant="spin"] .car.delay {
+   animation: collapseRight var(--uib-speed) cubic-bezier(0.77, 0, 0.175, 1)
+      infinite;
+}
+@keyframes collapseLeft {
+   0%,
+   100% {
+      transform: rotate(0deg);
+      stroke-dashoffset: 0;
+   }
+   50% {
+      transform: rotate(45deg);
+      stroke-dashoffset: 60;
+   }
+}
+@keyframes collapseRight {
+   0%,
+   100% {
+      transform: rotate(0deg);
+      stroke-dashoffset: 0;
+   }
+   50% {
+      transform: rotate(-45deg);
+      stroke-dashoffset: -60;
+   }
+}
+
+/* --- Variant 3: teleport --- */
+[data-variant="pulse"] .car {
+   stroke-dasharray: 10, 90;
+   animation: teleport var(--uib-speed) cubic-bezier(0.19, 1, 0.22, 1) infinite;
+   will-change: stroke-dasharray, stroke-dashoffset;
+}
+[data-variant="pulse"] .car.delay {
+   animation-delay: calc(var(--uib-speed) / -2);
+}
+@keyframes teleport {
+   0% {
+      stroke-dasharray: 10, 90;
+      stroke-dashoffset: 10;
+   }
+   40% {
+      stroke-dasharray: 40, 60;
+      stroke-dashoffset: -20;
+   }
+   60% {
+      stroke-dasharray: 40, 60;
+      stroke-dashoffset: -40;
+   }
+   100% {
+      stroke-dasharray: 10, 90;
+      stroke-dashoffset: -90;
+   }
+}
+
+/* --- Variant 4: heartbeat & crossWhip --- */
+[data-variant="draw-in"].x-container {
+   animation: heartbeat var(--uib-speed) cubic-bezier(0.25, 1, 0.5, 1) infinite;
+}
+[data-variant="draw-in"] .car {
+   stroke-dasharray: 40, 60;
+   stroke-dashoffset: 0;
+   animation: crossWhip var(--uib-speed) cubic-bezier(0.76, 0, 0.24, 1) infinite;
+   will-change: stroke-dashoffset;
+}
+[data-variant="draw-in"] .car.delay {
+   animation-delay: calc(var(--uib-speed) * -0.25);
+}
+@keyframes heartbeat {
+   0%,
+   100% {
+      transform: scale(0.9);
+   }
+   50% {
+      transform: scale(1.1);
+   }
+}
+@keyframes crossWhip {
+   0% {
+      stroke-dashoffset: 40;
+   }
+   50% {
+      stroke-dashoffset: -10;
+   }
+   100% {
+      stroke-dashoffset: -60;
+   }
+}
+
+/* --- Variant 5: hyperspin & slice --- */
+[data-variant="shift"].x-container {
+   animation: hyperSpin var(--uib-speed) cubic-bezier(0.5, 0, 0, 1) infinite;
+}
+[data-variant="shift"] .car {
+   stroke-dasharray: 15, 85;
+   stroke-dashoffset: 0;
+   animation: slice var(--uib-speed) cubic-bezier(0.1, 0.9, 0.2, 1) infinite;
+   will-change: stroke-dashoffset;
+}
+[data-variant="shift"] .car.delay {
+   animation-delay: calc(var(--uib-speed) * -0.5);
+}
+@keyframes hyperSpin {
+   0% {
+      transform: rotate(0deg);
+   }
+   100% {
+      transform: rotate(360deg);
+   }
+}
+@keyframes slice {
+   0% {
+      stroke-dashoffset: 15;
+   }
+   50% {
+      stroke-dashoffset: -35;
+   }
+   100% {
+      stroke-dashoffset: -85;
+   }
+}
+
+/* --- Variant 6: pendulum --- */
+[data-variant="flop"] .car {
+   stroke-dasharray: 5, 95;
+   stroke-dashoffset: 0;
+   animation: pendulum var(--uib-speed) cubic-bezier(0.4, 0, 0.2, 1) infinite;
+   will-change: stroke-dasharray, stroke-dashoffset;
+}
+[data-variant="flop"] .car.delay {
+   animation-name: pendulumReverse;
+}
+@keyframes pendulum {
+   0%,
+   100% {
+      stroke-dasharray: 5, 95;
+      stroke-dashoffset: 0;
+   }
+   50% {
+      stroke-dasharray: 40, 60;
+      stroke-dashoffset: -60;
+   }
+}
+@keyframes pendulumReverse {
+   0%,
+   100% {
+      stroke-dasharray: 5, 95;
+      stroke-dashoffset: -95;
+   }
+   50% {
+      stroke-dasharray: 40, 60;
+      stroke-dashoffset: 0;
+   }
+}
+
+/* --- Variant 7: snake --- */
+[data-variant="glitch"] .car {
+   stroke-dasharray: 0, 100;
+   stroke-dashoffset: 0;
+   animation: snake calc(var(--uib-speed) * 1.5) cubic-bezier(0.2, 0.8, 0.2, 1)
+      infinite;
+   will-change: stroke-dasharray, stroke-dashoffset;
+}
+[data-variant="glitch"] .car.delay {
+   animation-name: snakeReverse;
+}
+@keyframes snake {
+   0% {
+      stroke-dasharray: 0, 100;
+      stroke-dashoffset: 0;
+   }
+   20% {
+      stroke-dasharray: 50, 50;
+      stroke-dashoffset: 0;
+   }
+   40% {
+      stroke-dasharray: 0, 100;
+      stroke-dashoffset: -50;
+   }
+   60% {
+      stroke-dasharray: 50, 50;
+      stroke-dashoffset: -50;
+   }
+   80% {
+      stroke-dasharray: 0, 100;
+      stroke-dashoffset: -100;
+   }
+   100% {
+      stroke-dasharray: 0, 100;
+      stroke-dashoffset: -100;
+   }
+}
+@keyframes snakeReverse {
+   0% {
+      stroke-dasharray: 0, 100;
+      stroke-dashoffset: -100;
+   }
+   20% {
+      stroke-dasharray: 50, 50;
+      stroke-dashoffset: -50;
+   }
+   40% {
+      stroke-dasharray: 0, 100;
+      stroke-dashoffset: -50;
+   }
+   60% {
+      stroke-dasharray: 50, 50;
+      stroke-dashoffset: 0;
+   }
+   80% {
+      stroke-dasharray: 0, 100;
+      stroke-dashoffset: 0;
+   }
+   100% {
+      stroke-dasharray: 0, 100;
+      stroke-dashoffset: 0;
+   }
+}
+
+/* --- Variant 8: radarcalc & sweep --- */
+[data-variant="target"].x-container {
+   animation: radarcalc var(--uib-speed) linear infinite;
+}
+[data-variant="target"] .car {
+   stroke-dasharray: 10, 90;
+   stroke-dashoffset: 0;
+   animation: sweep var(--uib-speed) ease-in-out infinite;
+   will-change: stroke-dasharray, stroke-dashoffset;
+}
+[data-variant="target"] .car.delay {
+   animation-name: sweepReverse;
+}
+@keyframes radarcalc {
+   0% {
+      transform: rotate(0deg);
+   }
+   100% {
+      transform: rotate(90deg);
+   }
+}
+@keyframes sweep {
+   0%,
+   100% {
+      stroke-dasharray: 5, 95;
+      stroke-dashoffset: 0;
+   }
+   50% {
+      stroke-dasharray: 45, 55;
+      stroke-dashoffset: -50;
+   }
+}
+@keyframes sweepReverse {
+   0%,
+   100% {
+      stroke-dasharray: 5, 95;
+      stroke-dashoffset: -95;
+   }
+   50% {
+      stroke-dasharray: 45, 55;
+      stroke-dashoffset: 5;
+   }
+}
+
+/* --- Variant 9: dnaSync --- */
+[data-variant="bounce"] .car {
+   stroke-dasharray: 2, 18, 2, 78;
+   stroke-dashoffset: 0;
+   animation: dnaSync var(--uib-speed) cubic-bezier(0.5, 1, 0.89, 1) infinite;
+   will-change: stroke-dashoffset;
+}
+[data-variant="bounce"] .car.delay {
+   animation-name: dnaSyncReverse;
+}
+@keyframes dnaSync {
+   0% {
+      stroke-dashoffset: 0;
+   }
+   50% {
+      stroke-dashoffset: -50;
+   }
+   100% {
+      stroke-dashoffset: -100;
+   }
+}
+@keyframes dnaSyncReverse {
+   0% {
+      stroke-dashoffset: -100;
+   }
+   50% {
+      stroke-dashoffset: -50;
+   }
+   100% {
+      stroke-dashoffset: 0;
+   }
+}
+
+/* --- Variant 10: spinSpiral & vortexRing --- */
+[data-variant="alternate"].x-container {
+   animation: spinSpiral var(--uib-speed) linear infinite;
+}
+[data-variant="alternate"] .car {
+   stroke-dasharray: 5, 45, 10, 40;
+   stroke-dashoffset: 0;
+   animation: vortexRing var(--uib-speed) ease-in-out infinite;
+   will-change: transform, stroke-dashoffset;
+}
+[data-variant="alternate"] .car.delay {
+   animation-name: vortexRingReverse;
+}
+@keyframes spinSpiral {
+   0% {
+      transform: rotate(0deg);
+   }
+   100% {
+      transform: rotate(360deg);
+   }
+}
+@keyframes vortexRing {
+   0%,
+   100% {
+      stroke-dashoffset: 0;
+      transform: scale(1);
+   }
+   50% {
+      stroke-dashoffset: -50;
+      transform: scale(0.7);
+   }
+}
+@keyframes vortexRingReverse {
+   0%,
+   100% {
+      stroke-dashoffset: -100;
+      transform: scale(0.7);
+   }
+   50% {
+      stroke-dashoffset: -50;
+      transform: scale(1);
+   }
+}
+
+/* --- Variant 11: satelliteSpin & beadExpand --- */
+[data-variant="vortex"] .car {
+   stroke-dasharray: 0, 25, 0, 25, 0, 25, 0, 25;
+   stroke-linecap: round;
+   animation:
+      satelliteSpin var(--uib-speed) cubic-bezier(0.4, 0, 0.2, 1) infinite,
+      beadExpand var(--uib-speed) ease-in-out infinite;
+   will-change: transform, stroke-dasharray;
+}
+[data-variant="vortex"] .car.delay {
+   animation-delay: calc(var(--uib-speed) * -0.5);
+   animation-direction: reverse, normal;
+}
+@keyframes satelliteSpin {
+   0% {
+      transform: rotate(0deg);
+   }
+   100% {
+      transform: rotate(720deg);
+   }
+}
+@keyframes beadExpand {
+   0%,
+   100% {
+      stroke-dasharray: 0, 25, 0, 25, 0, 25, 0, 25;
+      stroke-width: calc(var(--uib-stroke, 5px) * 1.5);
+   }
+   50% {
+      stroke-dasharray: 15, 10, 15, 10, 15, 10, 15, 10;
+      stroke-width: var(--uib-stroke, 5px);
+   }
+}
+
+/* --- Variant 12: eclipse --- */
+[data-variant="echo"] .car {
+   stroke-dasharray: 30, 70;
+   stroke-dashoffset: 0;
+   animation: eclipse calc(var(--uib-speed) * 1.2)
+      cubic-bezier(0.68, -0.6, 0.32, 1.6) infinite;
+   will-change: transform, stroke-dashoffset;
+}
+[data-variant="echo"] .car.delay {
+   animation-name: eclipseInverse;
+   animation-delay: calc(var(--uib-speed) * -0.6);
+}
+@keyframes eclipse {
+   0% {
+      stroke-dashoffset: 0;
+      transform: rotate(0deg) scale(1);
+   }
+   50% {
+      stroke-dashoffset: -50;
+      transform: rotate(180deg) scale(0.6);
+   }
+   100% {
+      stroke-dashoffset: -100;
+      transform: rotate(360deg) scale(1);
+   }
+}
+@keyframes eclipseInverse {
+   0% {
+      stroke-dashoffset: -100;
+      transform: rotate(360deg) scale(0.6);
+   }
+   50% {
+      stroke-dashoffset: -50;
+      transform: rotate(180deg) scale(1);
+   }
+   100% {
+      stroke-dashoffset: 0;
+      transform: rotate(0deg) scale(0.6);
+   }
+}

@@ -27,7 +27,7 @@ function App() {
          }}
       >
          {/* Simply swap "draw-in" with any string from the LOADER_VARIANTS array above */}
-         <XLoader variant="draw-in" size={50} color="#3DA5A3" speed="1s" />
+         <XLoader variant="spin" size={50} color="#3DA5A3" speed="1s" />
       </div>
    );
 }
